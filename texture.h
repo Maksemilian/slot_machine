@@ -32,7 +32,4 @@ public:
 
 };
 
-//GLuint loadTexture(const std::string &path);
-
-//std::vector<GLuint> loadTextures(const std::string &dirName);
 #endif // TEXTURE_H

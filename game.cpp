@@ -148,7 +148,7 @@ void Game::renderText(const std::string &text,
 {
     for(auto &ch:text)
     {
-        Widget token(_characters[ch].TextureID,w,h);
+        Widget token(_characters[ch]._texture,w,h);
         token.setGeometry(x,y+h,w,h);
         token.draw();
         x+=w;

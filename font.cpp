@@ -1,7 +1,6 @@
 #include "font.h"
 #include <iostream>
 
-
 std::map<char,Character>
 getTexturesOfCharacters(const std::string &strOfCharacters,
                         const std::string& pathToFont)
@@ -41,11 +40,11 @@ getTexturesOfCharacters(const std::string &strOfCharacters,
             }
             else
             {
-                GLuint txFont;
+                GLuint textureGlyph;
                 //TODO без этого параметра не отображается одно число
                 glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-                glGenTextures(1, &txFont);
-                glBindTexture(GL_TEXTURE_2D, txFont);
+                glGenTextures(1, &textureGlyph);
+                glBindTexture(GL_TEXTURE_2D, textureGlyph);
 
                 //            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
                 //            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -56,39 +55,21 @@ getTexturesOfCharacters(const std::string &strOfCharacters,
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-//                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
-//                             texture._w,
-//                             texture._h, 0,
-//                             GL_RGB,
-//                             GL_UNSIGNED_BYTE,
-//                             image);
-
                 glTexImage2D(
                             GL_TEXTURE_2D,0,
                             GL_RED,
                             //                        GL_RGB,
                             face->glyph->bitmap.width,
                             face->glyph->bitmap.rows,
-                            0,
+                            0,//1
                             GL_RED,
                             //                        GL_RGB,
                             GL_UNSIGNED_BYTE,
                             face->glyph->bitmap.buffer
                             );
-//                glTexImage2D(
-//                            GL_TEXTURE_2D,0,
-//                            GL_RED,
-//                            //                        GL_RGB,
-//                            face->glyph->bitmap.width,
-//                            face->glyph->bitmap.rows,1,
-//                            GL_RED,
-//                            //                        GL_RGB,
-//                            GL_UNSIGNED_BYTE,
-//                            face->glyph->bitmap.buffer
-//                            );
 
                 Character character = {
-                       txFont,
+                       textureGlyph,
                        face->glyph->bitmap.width,
                        face->glyph->bitmap.rows,
                        face->glyph->bitmap_left,

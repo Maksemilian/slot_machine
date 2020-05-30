@@ -9,26 +9,18 @@
 
 struct Character
 {
-    GLuint     TextureID; // ID текстуры глифа
-    //    FT_UInt w;//lin
-    //    FT_UInt r;//lin
+    GLuint     _texture; // ID текстуры глифа
 #ifdef WIN32
-    FT_Int w;//win
-    FT_Int r;//win
+    FT_Int _w;//win
+    FT_Int _r;//win
 #else
-    FT_UInt w;//lin
-    FT_UInt r;//lin
+    FT_UInt _w;//lin
+    FT_UInt _r;//lin
 #endif
 
     FT_Int left;
     FT_Int top;
     FT_Pos Advance;
-
-    // Размеры глифа
-    //    GLuint w; //unix
-    //    GLuint r; //unix
-    //    int w; //unix
-    //    int r; //unix
 };
 
 std::map<char,Character>
