@@ -1,0 +1,7 @@
+/lib
+/build
+/resources
+
+*.pro.user
+*.pro.user.*
+*.autosave
