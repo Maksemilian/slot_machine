@@ -13,16 +13,11 @@
 #include <GL/glut.h>
 #include <cmath>
 #include <iostream>
+#include <algorithm>
 
-GLfloat m_x1 = 0.0f;   /// GLfloat - аналог float
-GLfloat m_y1 = 100;
-
-GLfloat rsize = 20;
-GLfloat rsizeW = 15;
 GLfloat _windowWidth=100;
 GLfloat _windowHeight=100;
 
-Button *button;
 
 std::map<char,Character>_characters;
 
@@ -31,43 +26,65 @@ Texture textureButton;
 
 Renderer *renderer;
 SlotMachine *slotMachine;
+Button *button;
 
-std::string appDirPath;
 //****** STATIC VARIBLE GAME
 
 int Game::_w;
 int Game::_h;
 
 FPS Game::_fps;
-//TODO в игру передавать параметры командной строки
-Game::Game(const std::string &applicationDirPath,int w,int h)
+std::string Game::appDirPath="./";
+
+//***CONSTANT
+const std::string Game::PATH_TO_TEXTURE[]={
+    "/resources/arial.ttf",
+    "/resources/images/display/btn1.png",
+    "/resources/images/display/btn2.png",
+    "/resources/images/display/back_3.png"
+};
+
+const std::string Game::NAME_GAME="SlotGame";
+const std::string Game::CHARACTERS_FOR_TEXTURE="FPS:.1234567890";
+
+Game::Game(int argc,char** argv)
 {
+    std::string applicationDirPath(argv[0]);
+    std::replace(applicationDirPath.begin(),applicationDirPath.end(),'\\','/');
+
+    applicationDirPath.erase(applicationDirPath.find_last_of('/'));
+    std::cout<<"APP_PATH:"<<applicationDirPath<<std::endl;
+
+    if(argc==1){
+        _w=WIDTH;
+        _h=HEIGHT;
+    }else{
+        //TODO сделать обработку аргументов w h
+    }
+    _windowWidth=_w;
+    _windowHeight=_h;
+
     appDirPath=applicationDirPath;
-    _w=w;
-    _h=h;
-    char *argv[] = {"GameSlot"};
-    int argc = 1;
 
     glutInit(&argc,argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-    glutInitWindowSize(w,h);
-    glutInitWindowPosition(100,100);
-    glutCreateWindow("Slot Machine");
+    glutInitWindowSize(_w,_h);
+    //TODO 100 100
+    glutInitWindowPosition(0,0);
+    glutCreateWindow(NAME_GAME.data());
 
     init();
-    std::string charactersForTexture="FPS:.1234567890";
-    std::string pathToFont=appDirPath+"\\resources\\arial.ttf";
-    //            "/usr/share/fonts/truetype/msttcorefonts/arial.ttf";
-    _characters=getTexturesOfCharacters(charactersForTexture,
-                                        pathToFont);
+
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
 
-    glutTimerFunc(RENDER_TIMEOUT,idle,0);
+    glutTimerFunc(RENDER_TIMEOUT,renderSceneByTimer,0);
+    //TODO 100
     glutTimerFunc(100,buttonTimer,true);
 
     glutMouseFunc(mouseClicked);
     glutKeyboardFunc(keyClicked);
+
 }
 
 void Game::exec()
@@ -76,86 +93,51 @@ void Game::exec()
     glutMainLoop();
 }
 
-void Game::loadAllTexture()
-{
-    //**************UNIX
-    //   std::string tokensDirPath=appDirPath+
-    //                "/debug/resources/images/tokens/";
-
-    //    std::string buttonActivePath=appDirPath+
-    //            "/debug/resources/images/display/btn1.png";
-
-    //    std::string buttonPath=appDirPath+
-    //            "/debug/resources/images/display/btn2.png";
-
-    //    std::string backPath=appDirPath+
-    //            "/debug/resources/images/display/back_3.png";
-
-    //**********WIN
-
-    std::string buttonActivePath=appDirPath+
-            "\\resources\\images\\display\\btn1.png";
-
-    std::string buttonPath=appDirPath+
-            "\\resources\\images\\display\\btn2.png";
-
-    std::string backPath=appDirPath+
-            "\\resources\\images\\display\\back.png";
-
-    //TODO ЕСЛИ накладывать текстуру кнопки после текстур барабана
-    //то происходит наложение структуры барабана
-
-    textureActiveButton=TextureLoader::loadTexture(buttonActivePath);
-    textureButton=TextureLoader::loadTexture(buttonPath);
-
-//    txBack=TextureLoader::loadTexture(backPath);
-//    std::cout<<"**TX_1:"<<txBack
-//            <<"**TX_2:"<<txBack._textureId
-//           <<std::endl;
-    //    _tokenTextures = loadTextures(tokensDirPath.toStdString());
-}
-
-void Game::idle(int v)
+void Game::renderSceneByTimer(int v)
 {
     glutPostRedisplay();
-    glutTimerFunc(RENDER_TIMEOUT,idle,v);
+    glutTimerFunc(RENDER_TIMEOUT,renderSceneByTimer,v);
 }
 
 void Game::init()
 {
-    //TODO в win /debug есть а в linux нет
+    //load textures
+    std::string buttonActivePath=appDirPath+PATH_TO_TEXTURE[1];
 
-    loadAllTexture();
+    std::string buttonPath=appDirPath+PATH_TO_TEXTURE[2];
 
-    glEnable(GL_TEXTURE_2D);
-    glClearColor(0.0,0.0,0.0,0.0);
+    std::string backPath=appDirPath+PATH_TO_TEXTURE[3];
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluOrtho2D(0,_w,0,_h);
-    glMatrixMode(GL_MODELVIEW);
+
+    textureActiveButton=TextureLoader::loadTexture(buttonActivePath);
+    textureButton=TextureLoader::loadTexture(buttonPath);
+
+    std::string pathToFont=appDirPath+PATH_TO_TEXTURE[0];
+    _characters=getTexturesOfCharacters(CHARACTERS_FOR_TEXTURE,
+                                        pathToFont);
+
+
     //********GUI
-    _windowWidth=_w;
-    _windowHeight=_h;
 
     GLfloat startButtonW=_w*12/100;
     GLfloat startButtonH=startButtonW;
 
-    if((textureActiveButton!=0))
-    {
-        GLfloat x=_w-startButtonW;
-        GLfloat y=startButtonH;
+    GLfloat x=_w-startButtonW;
+    GLfloat y=startButtonH;
 
-        button=new Button(textureActiveButton,
-                          x,y,startButtonW,startButtonH);
-        button->setGeometry(x,y,startButtonW,startButtonH);
-    }
+    button=new Button(textureActiveButton,
+                      x,y,startButtonW,startButtonH);
+    button->setGeometry(x,y,startButtonW,startButtonH);
 
     //*********GAME
     renderer=new Renderer(appDirPath,_w,_h);
 
     slotMachine = new SlotMachine(renderer->_countWheel,
                                   renderer->_countTokensInWhell);
+
+    glEnable(GL_TEXTURE_2D);
+    glClearColor(0.0,0.0,0.0,0.0);
+
 }
 
 void Game::renderText(const std::string &text,
@@ -171,14 +153,7 @@ void Game::renderText(const std::string &text,
     }
 }
 
-
-
 // ***************** GLUT TIMERS ******************
-// ****START WHEEL
-void Game::spin()
-{
-    slotMachine->start();
-}
 
 //*****GUI
 
@@ -192,6 +167,7 @@ void Game::buttonTimer(int value)
     {
         button->setTexture(textureButton);
     }
+    //TODO 400
     glutTimerFunc(400,buttonTimer,!value);
 }
 
@@ -221,7 +197,7 @@ void Game::reshape(int w, int h)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     aspectRatio = (GLfloat)w / (GLfloat)h;
-    std::cout<<"IF"<<"w:"<<w<<"h:"<<h<<std::endl;
+//    std::cout<<"IF"<<"w:"<<w<<"h:"<<h<<std::endl;
     _windowWidth = w;
     _windowHeight = h;
     //
@@ -258,13 +234,13 @@ void Game::mouseClicked(int button, int state, int x, int y)
     if(button == GLUT_LEFT_BUTTON && state==GLUT_DOWN)
     {
         if(::button->containsPoint(MouseViewportX,MouseViewportY)){
-            std::cout<<"M("<<x<<","<<y<<")"
-                    <<"B("<<MouseViewportX<<","<<MouseViewportY<<")"
-                   <<"Is Cliecked:"
-                  <<::button->containsPoint(MouseViewportX,MouseViewportY)<<std::endl;
-            spin();
+//            std::cout<<"M("<<x<<","<<y<<")"
+//                    <<"B("<<MouseViewportX<<","<<MouseViewportY<<")"
+//                   <<"Is Cliecked:"
+//                  <<::button->containsPoint(MouseViewportX,MouseViewportY)<<std::endl;
+            slotMachine->start();
         }else{
-            std::cout<<x<<" "<<y<<"||"<<m_x1<<" "<<m_y1<<std::endl;
+//            std::cout<<x<<" "<<y<<std::endl;
         }
     }
 }
@@ -275,7 +251,7 @@ void Game::keyClicked(unsigned char key, int x, int y)
     if(key=='g')
     {
         std::cout<<"Game Start"<<std::endl;
-        spin();
+        slotMachine->start();
     }
     else
     {
@@ -284,6 +260,35 @@ void Game::keyClicked(unsigned char key, int x, int y)
 }
 
 //************** del
+
+//Game::Game(const std::string &applicationDirPath,int w,int h)
+//{
+//    appDirPath=applicationDirPath;
+//    _w=w;
+//    _h=h;
+//    char *argv[] = {"GameSlot"};
+//    int argc = 1;
+
+//    glutInit(&argc,argv);
+//    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+//    glutInitWindowSize(w,h);
+//    glutInitWindowPosition(100,100);
+//    glutCreateWindow("Slot Machine");
+
+//    init();
+//    std::string pathToFont=appDirPath+PATH_TO_TEXTURE[0];
+//    _characters=getTexturesOfCharacters(CHARACTERS_FOR_TEXTURE,
+//                                        pathToFont);
+//    glutDisplayFunc(display);
+//    glutReshapeFunc(reshape);
+
+//    glutTimerFunc(RENDER_TIMEOUT,idle,0);
+//    glutTimerFunc(100,buttonTimer,true);
+
+//    glutMouseFunc(mouseClicked);
+//    glutKeyboardFunc(keyClicked);
+//}
+
 /*
 std::vector<TokenWindget>Game::createTokensForWheel(
         const std::vector<GLuint> &textures,GLfloat w,GLfloat h)

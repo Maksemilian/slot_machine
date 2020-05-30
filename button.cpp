@@ -14,7 +14,7 @@ Button::Button(GLuint texture,GLfloat x,GLfloat y,
     :Widget(texture,w,h)
 //            _rect(x,y,w,h),_tex(texture)
 {
-std::cout<<"BUTTON_TEX:"<<texture<<std::endl;
+//std::cout<<"BUTTON_TEX:"<<texture<<std::endl;
 setGeometry(x,y,w,h);
 }
 

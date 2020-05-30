@@ -26,7 +26,7 @@ public:
     RenderableObject(T* object):_object(object){}
 
     virtual void render(Renderer& renderer)  override{
-//        std::cout<<"RENDER:"<<_object<<std::endl;
+        //        std::cout<<"RENDER:"<<_object<<std::endl;
         render(renderer, _object);
     }
     virtual void render(Renderer& renderer, T* object) = 0;
@@ -35,15 +35,15 @@ public:
     }
 public:
     T*_object;
-//public:
-//    RenderableObject(T& object)
-//        :mObject(object) {}
-//    virtual ~RenderableObject(){}
+    //public:
+    //    RenderableObject(T& object)
+    //        :mObject(object) {}
+    //    virtual ~RenderableObject(){}
 
 
-//protected:
-//    virtual void render(Renderer& renderer, T& object) = 0;
-//    T mObject;
+    //protected:
+    //    virtual void render(Renderer& renderer, T& object) = 0;
+    //    T mObject;
 };
 
 class Renderer
@@ -72,15 +72,15 @@ public:
     int _h;
     Renderer(std::string &applicationDirPath,int w,int h)
     {
-         _w=w;
+        _w=w;
         _h=h;
 
         std::string backPath=applicationDirPath+
-                "\\resources\\images\\display\\back.png";
+                "/resources/images/display/back.png";
 
         std::string tokensDirPath=  applicationDirPath+
-                      "\\resources\\images\\tokens\\";
-    //        _tokenTextures = loadTextures(tokensDirPath);
+                "/resources/images/tokens/";
+
         _tokenTextures = TextureLoader::loadTextures(tokensDirPath);
         _txBack=TextureLoader::loadTexture(backPath);
 
@@ -108,28 +108,21 @@ public:
         _spaceBetweenWheelH=_tokenSize/_countViewTokens-1;
         _countTokensInWhell=_tokenTextures.size();
 
-//        std::string backPath=applicationDirPath+
-//                "\\resources\\images\\display\\back.png";
+            }
 
-//        std::string tokensDirPath=  applicationDirPath+
-//                      "\\resources\\images\\tokens\\";
-//    //        _tokenTextures = loadTextures(tokensDirPath);
-//        _tokenTextures = TextureLoader::loadTextures(tokensDirPath);
-    }
-
-//    void renderObjects(std::vector<Wheel>& gameObjects) {
-//        // If you want to do something fancy with the renderable GameObjects,
-//        // create a visitor class to return the list of GameObjects that
-//        // are visible instead of rendering them straight-away
-//        //        std::list<GameObject>::iterator itr = gameObjects.begin(), end = gameObjects.end();
-//        //        while (itr != end) {
-//        //            GameObject* gameObject = *itr++;
-//        //            if (gameObject == null || !gameObject->isVisible()) {
-//        //                continue;
-//        //            }
-//        //            gameObject->getRenderable()->render(*this);
-//        //        }
-//    }
+    //    void renderObjects(std::vector<Wheel>& gameObjects) {
+    //        // If you want to do something fancy with the renderable GameObjects,
+    //        // create a visitor class to return the list of GameObjects that
+    //        // are visible instead of rendering them straight-away
+    //        //        std::list<GameObject>::iterator itr = gameObjects.begin(), end = gameObjects.end();
+    //        //        while (itr != end) {
+    //        //            GameObject* gameObject = *itr++;
+    //        //            if (gameObject == null || !gameObject->isVisible()) {
+    //        //                continue;
+    //        //            }
+    //        //            gameObject->getRenderable()->render(*this);
+    //        //        }
+    //    }
 };
 
 
