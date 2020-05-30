@@ -4,79 +4,23 @@
 #include <chrono>
 #include <functional>
 #include <thread>
-#include <iostream>
 #include <atomic>
-
-//class CTimer
-//{
-//public:
-//    CTimer():t_beg(clock()){
-//    }
-//    void reset(){
-//        t_beg=clock();
-//    }
-//    double elapsed(){
-//        clock_t search_time = clock() - t_beg; // искомое время
-//        return  static_cast<double>(search_time)/CLOCKS_PER_SEC;
-//    }
-//private:
-//  clock_t t_beg;
-//};
-
-
 
 class Timer
 {
 public:
-    int c;
-    Timer():
-        c(0)
-    {
-//        _q=true;
-    }
+  Timer();
   void recursiveTimeout(std::chrono::milliseconds delay,
            std::function<void ()> callback,
-           bool asynchronous = true){
-  if (asynchronous) {
-    std::thread([=]() {
-      std::this_thread::sleep_for(std::chrono::milliseconds(delay));
-//      std::cout<<"CALL_BACK"<<std::endl;
-       callback();
-       if(!_q)
-           recursiveTimeout(std::chrono::milliseconds(delay),callback);
-    }).detach();
-  }
-  else
-  {
-    std::this_thread::sleep_for(std::chrono::milliseconds(delay));
-    callback();
-  }
-}
+           bool asynchronous = true);
+
   void singleTimeout(std::chrono::milliseconds delay,
            std::function<void ()> callback,
-           bool asynchronous = true){
-  if (asynchronous)
-  {
-    std::thread([callback,this,delay]() {
-      std::this_thread::sleep_for(std::chrono::milliseconds(delay));
-//      std::cout<<"CallBack:"<<++c<<std::endl;
-       callback();
-    }).detach();
-  }
-  else
-  {
-    std::this_thread::sleep_for(std::chrono::milliseconds(delay));
-    callback();
-  }
-}
-  void start(){
-    _q=false;
-  }
-  void stop()
-  {
-     _q=true;
-  }
+           bool asynchronous = true);
+
+  inline void start(){_quit=false; }
+  inline void stop(){ _quit=true; }
 private:
-  bool _q={true};
+  std::atomic_bool _quit;
 };
 #endif // TIMER_H

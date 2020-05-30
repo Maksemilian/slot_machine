@@ -40,6 +40,7 @@ SOURCES += \
     ro_token.cpp \
     ro_wheel.cpp \
     texture.cpp \
+    timer.cpp \
     widget.cpp
 
 HEADERS += \
