@@ -50,8 +50,10 @@ const std::string Game::CHARACTERS_FOR_TEXTURE="FPS:.1234567890";
 Game::Game(int argc,char** argv)
 {
     std::string applicationDirPath(argv[0]);
-    std::replace(applicationDirPath.begin(),applicationDirPath.end(),'\\','/');
 
+#ifdef WIN32
+    std::replace(applicationDirPath.begin(),applicationDirPath.end(),'\\','/');
+#endif
     applicationDirPath.erase(applicationDirPath.find_last_of('/'));
     std::cout<<"APP_PATH:"<<applicationDirPath<<std::endl;
 

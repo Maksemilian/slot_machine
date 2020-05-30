@@ -2,19 +2,20 @@ TEMPLATE = app
 CONFIG += console c++11
 
 win32 {
-INCLUDEPATH += $${PWD}/lib/freetype-2/include
-INCLUDEPATH += $${PWD}/lib
-INCLUDEPATH += $${PWD}/lib/soil
-INCLUDEPATH += $${PWD}/lib/boost
+INCLUDEPATH += $${PWD}/lib/win32
+INCLUDEPATH += $${PWD}/lib/win32/freetype-2/include
+INCLUDEPATH += $${PWD}/lib/win32/soil
+INCLUDEPATH += $${PWD}/lib/win32/boost
 
-LIBS += -L$${PWD}/lib/boost -lboost_filesystem_wind
-LIBS += -L$${PWD}/lib/soil/lib -lSOIL
-LIBS += -L$${PWD}/lib/freetype-2/lib -lfreetype
+LIBS += -L$${PWD}/lib/win32/boost -lboost_filesystem_wind
+LIBS += -L$${PWD}/lib/win32/soil/lib -lSOIL
+LIBS += -L$${PWD}/lib/win32/freetype-2/lib -lfreetype
 
 # требуется glut32.dll в win os а для linuxa no
-LIBS += -L$${PWD}/lib/GL -lglut32
+LIBS += -L$${PWD}/lib/win32/GL -lglut32
 LIBS += -lgdi32 -lopengl32 -lglu32
 }
+
 unix {
 INCLUDEPATH += $${PWD}/lib/linux/freetype/include
 INCLUDEPATH += $${PWD}/lib/linux/boost
@@ -24,6 +25,7 @@ LIBS += -L$${PWD}/lib/linux/boost -lboost_filesystem
 
 LIBS += -lglut -lGL -lGLU -lSOIL
 }
+
 SOURCES += \
     button.cpp \
     font.cpp \

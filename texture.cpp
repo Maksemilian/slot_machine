@@ -52,10 +52,10 @@ Texture TextureLoader::loadTexture(const std::string &path)
 //                     texture._w,
 //                     texture._h, 1, GL_RGB, GL_UNSIGNED_BYTE, image);
 
-        std::cout<<"Load Tex:"<<texture<<" "<<texture._textureId<<path<<std::endl;
+//        std::cout<<"Load Tex:"<<texture<<" "<<texture._textureId<<path<<std::endl;
         //        std::cout<<texture<<" SOIL:"<<width<<"||"<<height<<"||"
         //                <<path<<"TEX:"<<texture<<std::endl;
-        //        SOIL_free_image_data(image);
+                SOIL_free_image_data(image);
     }else  std::cout<<"Not load:"<<path<<std::endl;
     return texture;
 }
@@ -95,7 +95,7 @@ std::vector<Texture> TextureLoader::loadTextures(const std::string &dirName)
 //                                 texture._w,
 //                                 texture._h, 1, GL_RGB, GL_UNSIGNED_BYTE, image);
                     loadedTextures.push_back(texture);
-                    std::cout<<loadedTextures.back()<<std::endl;
+//                    std::cout<<loadedTextures.back()<<std::endl;
                     SOIL_free_image_data(image);
                 }else  std::cout<<"Not load:"<<*it<<std::endl;
             };
