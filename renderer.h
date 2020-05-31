@@ -8,43 +8,9 @@
 #include <iostream>
 #include <cmath>
 
-class Renderer;
-
-class Renderable
-{
-public:
-    Renderable(){}
-    virtual ~Renderable(){}
-    virtual void render(Renderer& renderer)  = 0;
-};
-
-template <typename T>
-class RenderableObject
-        : public Renderable
-{
-public:
-    RenderableObject(T* object):_object(object){}
-
-    virtual void render(Renderer& renderer)  override{
-        //        std::cout<<"RENDER:"<<_object<<std::endl;
-        render(renderer, _object);
-    }
-    virtual void render(Renderer& renderer, T* object) = 0;
-    void setObject(T*object){
-        _object=object;
-    }
-public:
-    T*_object;
-    //public:
-    //    RenderableObject(T& object)
-    //        :mObject(object) {}
-    //    virtual ~RenderableObject(){}
-
-
-    //protected:
-    //    virtual void render(Renderer& renderer, T& object) = 0;
-    //    T mObject;
-};
+#include "go_blink_button.h"
+#include "go_slot_machine.h"
+#include "rendereable_object.h"
 
 class Renderer
 {
@@ -60,6 +26,7 @@ public:
     GLfloat _spaceBetweenWheelW;
     GLfloat _spaceBetweenWheelH;
 
+    std::pair<Texture,Texture> _blinkButtonTexture;
     std::vector<Texture> _tokenTextures;
     Texture _txBack;
 
@@ -70,19 +37,39 @@ public:
     GLfloat _marginBottom;
     int _w;
     int _h;
+
+    GLfloat startButtonW;
+    GLfloat startButtonH;
+
+    GLfloat xPosButton;
+    GLfloat yPosButton;
+
+    const std::string PATH_TO_TEXTURE[4]={
+        "/resources/images/display/btn1.png",
+        "/resources/images/display/btn2.png",
+        "/resources/images/display/back.png",
+        "/resources/images/tokens/"
+    };
+    SlotMachine *slotMachine;
+    BlinkButton *startButton;
+
     Renderer(std::string &applicationDirPath,int w,int h)
     {
         _w=w;
         _h=h;
 
-        std::string backPath=applicationDirPath+
-                "/resources/images/display/back.png";
+        _blinkButtonTexture.first=
+                TextureLoader::loadTexture(applicationDirPath+PATH_TO_TEXTURE[0]);
 
-        std::string tokensDirPath=  applicationDirPath+
-                "/resources/images/tokens/";
+        _blinkButtonTexture.second=
+                TextureLoader::loadTexture(applicationDirPath+PATH_TO_TEXTURE[1]);
 
-        _tokenTextures = TextureLoader::loadTextures(tokensDirPath);
-        _txBack=TextureLoader::loadTexture(backPath);
+        _txBack=
+                TextureLoader::loadTexture(applicationDirPath+PATH_TO_TEXTURE[2]);
+
+        _tokenTextures =
+                TextureLoader::loadTextures(applicationDirPath+PATH_TO_TEXTURE[3]);
+
 
         _marginTop=h*12/100;
         _marginBottom=h*40/100;
@@ -99,30 +86,51 @@ public:
         GLfloat tokenSquare=(tokenFieldSquare-spaceBetwenTokens)/
                 (_countWheel*_countViewTokens);
 
-        _tokenSize=sqrt(tokenSquare);
+        _tokenSize=static_cast<int>(sqrt(static_cast<GLdouble>(tokenSquare)));
 
         _m_x1=_marginLeft;
         _m_y1=h-_marginTop;
 
         _spaceBetweenWheelW=_tokenSize/_countWheel-1;
         _spaceBetweenWheelH=_tokenSize/_countViewTokens-1;
-        _countTokensInWhell=_tokenTextures.size();
+        _countTokensInWhell=static_cast<int>(_tokenTextures.size());
 
-            }
+        startButtonW=_w*12/100;
+        startButtonH=startButtonW;
 
-    //    void renderObjects(std::vector<Wheel>& gameObjects) {
-    //        // If you want to do something fancy with the renderable GameObjects,
-    //        // create a visitor class to return the list of GameObjects that
-    //        // are visible instead of rendering them straight-away
-    //        //        std::list<GameObject>::iterator itr = gameObjects.begin(), end = gameObjects.end();
-    //        //        while (itr != end) {
-    //        //            GameObject* gameObject = *itr++;
-    //        //            if (gameObject == null || !gameObject->isVisible()) {
-    //        //                continue;
-    //        //            }
-    //        //            gameObject->getRenderable()->render(*this);
-    //        //        }
-    //    }
+        xPosButton=_w-startButtonW;
+        yPosButton=startButtonH;
+
+        startButton=new BlinkButton;
+        startButton->setTime(400);
+
+        slotMachine = new SlotMachine(_countWheel,
+                                      _countTokensInWhell);
+    }
+
+    void renderObjects() {
+        slotMachine->getRenderable()->render(*this);
+        startButton->getRenderable()->render(*this);
+    }
+
+    void mouseClicked(int x,int y) const
+    {
+        y=_h-y;
+        if( (x>xPosButton && y<yPosButton) &&
+                (x<xPosButton+startButtonW && y>yPosButton-startButtonH))
+        {
+            slotMachine->start();
+        }
+    }
+
+    void keyClicked(unsigned char key){
+
+        if(key=='g'){
+            std::cout<<"Game Start"<<std::endl;
+            slotMachine->start();
+        }
+    }
+
 };
 
 

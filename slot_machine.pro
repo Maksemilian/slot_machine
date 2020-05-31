@@ -41,7 +41,9 @@ SOURCES += \
     ro_wheel.cpp \
     texture.cpp \
     timer.cpp \
-    widget.cpp
+    widget.cpp \
+    go_blink_button.cpp \
+    ro_blink_button.cpp
 
 HEADERS += \
     button.h \
@@ -59,4 +61,7 @@ HEADERS += \
     ro_wheel.h \
     texture.h \
     timer.h \
-    widget.h
+    widget.h \
+    go_blink_button.h \
+    ro_blink_button.h \
+    rendereable_object.h

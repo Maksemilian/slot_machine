@@ -1,11 +1,11 @@
 #ifndef RO_SLOT_MACHINE_H
 #define RO_SLOT_MACHINE_H
 
-#include "renderer.h"
-#include "widget.h"
+
+#include "rendereable_object.h"
 
 class SlotMachine;
-
+class Renderer;
 class SlotMachineRenderable:public RenderableObject<SlotMachine>
 {
 public:

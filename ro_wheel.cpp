@@ -2,6 +2,7 @@
 
 #include "go_wheel.h"
 #include "go_token.h"
+#include "renderer.h"
 
 void WheelRenderable::render(Renderer& renderer, Wheel* wheel)
 {

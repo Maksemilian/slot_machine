@@ -1,7 +1,7 @@
 #ifndef RO_TOKEN_H
 #define RO_TOKEN_H
 
-#include "renderer.h"
+#include "rendereable_object.h"
 
 class Token;
 

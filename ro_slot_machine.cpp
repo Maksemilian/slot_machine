@@ -2,6 +2,9 @@
 #include "go_slot_machine.h"
 #include "go_wheel.h"
 
+#include "geometry.h"
+#include "renderer.h"
+
 void SlotMachineRenderable::render(Renderer &renderer,SlotMachine *slotMachine)
 {
     //если колеса вращаются
