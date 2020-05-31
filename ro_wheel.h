@@ -1,7 +1,7 @@
 #ifndef RO_WHEL_H
 #define RO_WHEL_H
 
-#include "rendereable_object.h"
+#include "ro_renderable_object.h"
 class Wheel;
 
 class WheelRenderable : public RenderableObject<Wheel> {

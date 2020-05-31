@@ -48,7 +48,8 @@ void SlotMachine::start()
 
 void SlotMachine::waitForStopWheel()
 {
-    static int wi=0;
+    //TODO do without static var
+    static unsigned int wi=0;
     //    auto it=_wheels.begin();
     _wheelStopingTimer.start();
     _wheelStopingTimer.recursiveTimeout(std::chrono::milliseconds(1000),

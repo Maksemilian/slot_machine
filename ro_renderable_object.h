@@ -19,7 +19,6 @@ public:
     RenderableObject(T* object):_object(object){}
 
     virtual void render(Renderer& renderer)  override{
-        //        std::cout<<"RENDER:"<<_object<<std::endl;
         render(renderer, _object);
     }
     virtual void render(Renderer& renderer, T* object) = 0;

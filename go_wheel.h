@@ -2,7 +2,7 @@
 #define DRUM_H
 
 #include "go_token.h"
-#include "timer.h"
+#include "s_timer.h"
 #include <vector>
 
 class Wheel

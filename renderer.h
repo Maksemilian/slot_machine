@@ -1,7 +1,7 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-#include "texture.h"
+#include "s_texture_loader.h"
 
 #include <GL/gl.h>
 
@@ -10,7 +10,7 @@
 
 #include "go_blink_button.h"
 #include "go_slot_machine.h"
-#include "rendereable_object.h"
+#include "ro_renderable_object.h"
 
 class Renderer
 {

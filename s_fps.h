@@ -3,6 +3,7 @@
 
 #include <chrono>
 
+//TODO перенести реализацию в сpp
 class Time
 {
 private:

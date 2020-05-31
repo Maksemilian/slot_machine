@@ -1,7 +1,7 @@
 #ifndef RO_BLINK_BUTTON_H
 #define RO_BLINK_BUTTON_H
 
-#include "rendereable_object.h"
+#include "ro_renderable_object.h"
 
 class BlinkButton;
 class Renderer;

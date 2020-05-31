@@ -1,6 +1,4 @@
 #include "go_wheel.h"
-#include <GL/glut.h>
-
 #include "ro_wheel.h"
 
 using namespace std;
@@ -30,8 +28,6 @@ Wheel::Wheel(int countTokens)
     for(int i=0;i<countTokens;++i){
         _tokens.push_back({i});
     }
-    //std::cout<<"CONSTR Wheel:"<<this<<endl;
-    //_renderable=new WheelRenderable(this);
 }
 
 void Wheel::startSpin(){

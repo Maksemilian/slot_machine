@@ -2,7 +2,7 @@
 #define GAME_H
 
 #include "go_wheel.h"
-#include "fps.h"
+#include "s_fps.h"
 #include <GL/gl.h>
 
 class Game

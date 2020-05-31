@@ -1,5 +1,7 @@
-#include "geometry.h"
+#include "s_geometry.h"
 #include <cmath>
+
+
 
 std::ostream &operator<<(std::ostream &out,const Vertex &v){
     out<<"v("<<v._x<<","<<v._y<<","<<v._z<<")";
@@ -57,6 +59,17 @@ Rect::Rect(GLfloat x,GLfloat y,GLfloat w,GLfloat h):
     _h=distance(_topRight,_bottomRight);
 }
 
+//TODO
+void Rect::setX(GLfloat x)
+{
+
+}
+
+void Rect::setY(GLfloat y)
+{
+
+}
+
 void Rect::setGeometry(GLfloat x,GLfloat y,GLfloat w,GLfloat h){
     _topLeft=Vertex(x,y);
     _topRight=Vertex(x+w,y);
@@ -94,4 +107,26 @@ void Rect::setGeometry(GLfloat x,GLfloat y,GLfloat w,GLfloat h){
 GLfloat Rect::distance(const Vertex &v1,const Vertex &v2)
 {
     return sqrt(pow(v1._x-v2._x,2)+pow(v1._y-v2._y,2)+pow(v1._z-v2._z,2));
+}
+
+void drawTextureRect(const Rect &rect,GLuint texture){
+    glBindTexture(GL_TEXTURE_2D,
+                  texture);
+
+    Rect textureRect(0,0,1,1);
+    glBegin(GL_QUADS);
+
+    glTexCoord2fv(textureRect.topLeft());
+    glVertex3fv(rect.bottomLeft());
+
+    glTexCoord2fv(textureRect.topRight());
+    glVertex3fv(rect.bottomRight());
+
+    glTexCoord2fv(textureRect.bottomRight());
+    glVertex3fv(rect.topRight());
+
+    glTexCoord2fv(textureRect.bottomLeft());
+    glVertex3fv(rect.topLeft());
+
+    glEnd();
 }

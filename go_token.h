@@ -1,7 +1,7 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
-#include "game_object.h"
+#include "go_game_object.h"
 
 class Token
         :public GameObject

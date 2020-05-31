@@ -1,4 +1,4 @@
-#include "timer.h"
+#include "s_timer.h"
 
 Timer::Timer():_quit(true)
 {

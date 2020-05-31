@@ -41,6 +41,8 @@ public:
     inline const Vertex &topLeft()const {return _topLeft;}
     inline const Vertex &bottomLeft()const{return _bottomLeft;}
     inline const Vertex &bottomRight()const{return _bottomRight;}
+    void setY(GLfloat x);
+    void setX(GLfloat y);
 private:
     GLfloat distance(const Vertex &v1,const Vertex &v2);
 private:
@@ -53,5 +55,5 @@ private:
     GLfloat _h;
 };
 
-
+void drawTextureRect(const Rect &rect,GLuint texture);
 #endif // GEOMETRY_H

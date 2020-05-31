@@ -2,7 +2,7 @@
 #define RO_SLOT_MACHINE_H
 
 
-#include "rendereable_object.h"
+#include "ro_renderable_object.h"
 
 class SlotMachine;
 class Renderer;

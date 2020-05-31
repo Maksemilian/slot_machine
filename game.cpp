@@ -1,11 +1,9 @@
 #include "game.h"
+#include "s_fps.h"
 
+#include "s_geometry.h"
 #include "renderer.h"
-#include "widget.h"
-
-#include "fps.h"
-
-#include "font.h"
+#include "s_font.h"
 
 #include <GL/glut.h>
 #include <algorithm>
@@ -37,6 +35,9 @@ Game::Game(int argc,char** argv)
         h=HEIGHT;
     }else{
         //TODO сделать обработку аргументов w h
+        w=0;
+        h=0;
+
     }
 
     glutInit(&argc,argv);
@@ -83,11 +84,11 @@ void Game::renderText(const std::string &text,
                       GLfloat x, GLfloat y,
                       GLfloat w, GLfloat h)
 {
+    Rect rect(x,y+h,w,h);
     for(auto &ch:text)
     {
-        Widget token(_characters[ch]._texture,w,h);
-        token.setGeometry(x,y+h,w,h);
-        token.draw();
+        rect.setGeometry(x,y+h,w,h);
+        drawTextureRect(rect,_characters[ch]._texture);
         x+=w;
     }
 }
@@ -105,13 +106,13 @@ void Game::display(void)
 
 void Game::reshape(int w, int h)
 {
-    GLfloat aspectRatio;
+//    GLfloat aspectRatio;
     if (h == 0)
         h = 1;
     glViewport(0, 0, w, h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    aspectRatio = (GLfloat)w / (GLfloat)h;
+//    aspectRatio = (GLfloat)w / (GLfloat)h;
 
     gluOrtho2D(0,w,0,h);
 

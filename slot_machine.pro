@@ -27,30 +27,22 @@ LIBS += -lglut -lGL -lGLU -lSOIL
 }
 
 SOURCES += \
-    button.cpp \
-    font.cpp \
-    game_object.cpp \
     go_slot_machine.cpp \
     go_token.cpp \
     go_wheel.cpp \
-        main.cpp \
-    geometry.cpp \
     game.cpp \
     ro_slot_machine.cpp \
     ro_token.cpp \
     ro_wheel.cpp \
-    texture.cpp \
-    timer.cpp \
-    widget.cpp \
     go_blink_button.cpp \
-    ro_blink_button.cpp
+    ro_blink_button.cpp \
+    s_texture_loader.cpp \
+    s_timer.cpp \
+    s_font.cpp \
+    s_geometry.cpp \
+    _main.cpp
 
 HEADERS += \
-    button.h \
-    font.h \
-    fps.h \
-    game_object.h \
-    geometry.h \
     game.h \
     go_slot_machine.h \
     go_token.h \
@@ -59,9 +51,12 @@ HEADERS += \
     ro_slot_machine.h \
     ro_token.h \
     ro_wheel.h \
-    texture.h \
-    timer.h \
-    widget.h \
     go_blink_button.h \
     ro_blink_button.h \
-    rendereable_object.h
+    s_texture_loader.h \
+    s_timer.h \
+    s_geometry.h \
+    s_fps.h \
+    s_font.h \
+    go_game_object.h \
+    ro_renderable_object.h
