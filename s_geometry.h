@@ -6,6 +6,12 @@
 
 class Vertex
 {
+    enum XYZ
+    {
+        X=0,
+        Y=1,
+        Z=2
+    };
 public:
     Vertex();
     Vertex(GLfloat x,GLfloat y,GLfloat z=0.0);
@@ -16,6 +22,8 @@ public:
     GLfloat x()const{return _x;}
     GLfloat y()const {return _y;}
     GLfloat z()const{return _z;}
+    void setX(GLfloat x) { _x = x; _v[XYZ::X] = x;}
+    void setY(GLfloat y) { _y = y; _v[XYZ::Y] = y;}
 
     friend class Rect;
     friend std::ostream &operator<<(std::ostream &out,const Vertex &v);
@@ -31,7 +39,7 @@ class Rect
 public:
     Rect();
     Rect(GLfloat x,GLfloat y,GLfloat w,GLfloat h);
-
+    Rect(const Rect& lhs);
     void setGeometry(GLfloat x,GLfloat y,GLfloat w,GLfloat h);
 
     inline GLfloat with() const {return _w;}
@@ -41,8 +49,10 @@ public:
     inline const Vertex &topLeft()const {return _topLeft;}
     inline const Vertex &bottomLeft()const{return _bottomLeft;}
     inline const Vertex &bottomRight()const{return _bottomRight;}
-    void setY(GLfloat x);
-    void setX(GLfloat y);
+    void setY(GLfloat y);
+    void setX(GLfloat x);
+    friend std::ostream &operator<<(std::ostream &out,const Rect &v);
+    GLfloat square(){return  _w*_h;}
 private:
     GLfloat distance(const Vertex &v1,const Vertex &v2);
 private:

@@ -43,7 +43,16 @@ Vertex& Vertex::operator=(const Vertex &l){
     return *this;
 }
 
-Rect::Rect():_w(0.0),_h(0.0)
+std::ostream &operator<<(std::ostream &out,const Rect &lhs)
+{
+    out<<"tl:"<<lhs._topLeft
+      <<"tr:"<<lhs._topRight
+     <<"bl:"<<lhs._bottomLeft
+    <<"br:"<<lhs._bottomRight;
+    return out;
+}
+
+Rect::Rect():Rect(0,0,0,0)
 {
 
 }
@@ -59,23 +68,42 @@ Rect::Rect(GLfloat x,GLfloat y,GLfloat w,GLfloat h):
     _h=distance(_topRight,_bottomRight);
 }
 
-//TODO
-void Rect::setX(GLfloat x)
+Rect::Rect(const Rect& lhs)
+    :Rect(lhs.topLeft().x(),
+          lhs.topLeft().y(),
+          lhs.with(),lhs.height())
 {
 
+}
+
+void Rect::setX(GLfloat x)
+{
+    _topLeft.setX(_topLeft.x()+x);
+    _topRight.setX(_topRight.x()+x);
+
+    _bottomLeft.setX(_bottomLeft.x()+x);
+    _bottomRight.setX(_bottomRight.x()+x);
 }
 
 void Rect::setY(GLfloat y)
 {
+    _topLeft.setY(_topLeft.y()-y);
+    _topRight.setY(_topRight.y()-y);
 
+    _bottomLeft.setY(_bottomLeft.y()-y);
+    _bottomRight.setY(_bottomRight.y()-y);
 }
 
-void Rect::setGeometry(GLfloat x,GLfloat y,GLfloat w,GLfloat h){
+void Rect::setGeometry(GLfloat x,GLfloat y,GLfloat w,GLfloat h)
+{
     _topLeft=Vertex(x,y);
     _topRight=Vertex(x+w,y);
 
     _bottomLeft=Vertex(x,y-h);
     _bottomRight=Vertex(x+w,y-h);
+
+    _w=distance(_topRight,_topLeft);
+    _h=distance(_topRight,_bottomRight);
 //std::cout<<_topLeft<<std::endl;
     //        _topLeft._x=x;
     //        _topLeft._y=y;
@@ -110,6 +138,10 @@ GLfloat Rect::distance(const Vertex &v1,const Vertex &v2)
 }
 
 void drawTextureRect(const Rect &rect,GLuint texture){
+//    std::cout<<"|---"<<rect.topRight()<<" w"
+//            <<rect.with()<<" h"
+//           <<rect.height()
+//           <<std::endl;
     glBindTexture(GL_TEXTURE_2D,
                   texture);
 

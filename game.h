@@ -1,13 +1,20 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "renderer.h"
+
 #include "go_wheel.h"
 #include "s_fps.h"
+#include "s_font.h"
+
 #include <GL/gl.h>
 
 class Game
 {
     static FPS _fps;
+    static std::map<char,Character>_characters;
+
+    static std::unique_ptr<Renderer> renderer;
     //*****CONSTANT
 
     static const std::string NAME_GAME;

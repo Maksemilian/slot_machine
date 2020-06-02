@@ -1,19 +1,22 @@
 #include "go_slot_machine.h"
 #include "ro_slot_machine.h"
 
+#include "go_blink_button.h"
+#include "ro_blink_button.h"
+
 const int SlotMachine::TIME_STOP_WHEEL;
 
-SlotMachine::SlotMachine(const std::vector<Wheel> &wheels)
+//SlotMachine::SlotMachine(const std::vector<Wheel> &wheels)
 
-    ://TODO
-      //не создвать через конструктор
-      //сначала создать данные
-      //а потом проинициал
-GameObject(new SlotMachineRenderable(this)),
-      _wheels(wheels)
-{
+//    ://TODO
+//      //не создвать через конструктор
+//      //сначала создать данные
+//      //а потом проинициал
+//GameObject(new SlotMachineRenderable(this)),
+//      _wheels(wheels)
+//{
 
-}
+//}
 
 int getRandomNumber(int min, int max)
 {
@@ -21,14 +24,17 @@ int getRandomNumber(int min, int max)
     return static_cast<int>(rand() * fraction * (max - min + 1) + min);
 }
 
-SlotMachine::SlotMachine(int countWheel,int countTokensInWheel)
+SlotMachine::SlotMachine(int countWheel,int countTokensInWheel
+                        /* ,RenderableObject<SlotMachine>*renderable*/)
     :GameObject(new SlotMachineRenderable(this))
+//    :GameObject (renderable)
 {
     for(int i=0;i<countWheel;++i){
         _wheels.push_back({countTokensInWheel});
         _wheels[i].setSpeed(getRandomNumber(MIN_WHEEL_SPEED,MAX_WHEEL_SPEED));
     }
-
+    _startButton=new BlinkButton;
+    _startButton->setTime(400);
 }
 
 void SlotMachine::start()
@@ -73,4 +79,21 @@ void SlotMachine::waitForStopWheel()
 void SlotMachine::stop()
 {
 
+}
+
+void SlotMachine::onPressEvent(int x, int y)
+{
+    y=rect().height()-y;
+    Rect _blinkButtonRect=_startButton->rect();
+//        std::cout<<x<<" "<<y<<" || "
+//                <<_blinkButtonRect.topLeft().x()<<" "
+//               <<_blinkButtonRect.topLeft().y()<<" "
+//              <<_blinkButtonRect.with()<<" "
+//             <<_blinkButtonRect.height()<<std::endl;
+    if( (x>_blinkButtonRect.topLeft().x() && y<_blinkButtonRect.topLeft().y()) &&
+            (x<_blinkButtonRect.topLeft().x()+_blinkButtonRect.with() &&
+             y>_blinkButtonRect.topLeft().y()-_blinkButtonRect.height()))
+    {
+        start();
+    }
 }

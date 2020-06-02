@@ -6,12 +6,6 @@
 
 void TokenRenderable:: render(Renderer& renderer, Token* token)
 {
-    Rect rect(renderer._m_x1,
-               renderer._m_y1,
-               renderer._tokenSize,
-               renderer._tokenSize);
-
-    drawTextureRect(rect,
+    drawTextureRect(token->rect(),
                 renderer._tokenTextures[static_cast<size_t>(token->getId())]);
-
 }

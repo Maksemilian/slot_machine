@@ -30,6 +30,18 @@ Wheel::Wheel(int countTokens)
     }
 }
 
+Wheel &Wheel::operator=(const Wheel &lhs)
+{
+    if(this!=&lhs){
+        _tokens=lhs._tokens;
+        _stop=lhs._stop;
+        _speedSpin=lhs._speedSpin;
+//        _whellSpinTimer=lhs._whellSpinTimer;
+
+    }
+    return *this;
+}
+
 void Wheel::startSpin(){
     _stop=false;
     _whellSpinTimer.start();

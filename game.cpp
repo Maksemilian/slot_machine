@@ -1,19 +1,11 @@
 #include "game.h"
 #include "s_fps.h"
 
-#include "s_geometry.h"
-#include "renderer.h"
-#include "s_font.h"
-
 #include <GL/glut.h>
 #include <algorithm>
 
-std::map<char,Character>_characters;
-
-Renderer *renderer;
-
-//****** STATIC VARIBLE GAME
-
+std::map<char,Character> Game::_characters;
+std::unique_ptr<Renderer>Game:: renderer;
 FPS Game::_fps;
 
 const std::string Game::NAME_GAME="SlotGame";
@@ -51,7 +43,7 @@ Game::Game(int argc,char** argv)
     _characters=getTexturesOfCharacters(CHARACTERS_FOR_TEXTURE,
                                        appDirPath+PATH_TO_FONT);
 
-    renderer=new Renderer(appDirPath,w,h);
+    renderer.reset(new Renderer(appDirPath));
 
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
@@ -106,26 +98,13 @@ void Game::display(void)
 
 void Game::reshape(int w, int h)
 {
-//    GLfloat aspectRatio;
-    if (h == 0)
-        h = 1;
+
     glViewport(0, 0, w, h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-//    aspectRatio = (GLfloat)w / (GLfloat)h;
 
     gluOrtho2D(0,w,0,h);
-
-    //    aspectRatio = (GLfloat)w / (GLfloat)h;
-    //    if (w <= h){
-    //        _windowWidth = w;
-    //        _windowHeight = h / aspectRatio;
-    //        glOrtho(-w,w,-_windowHeight,_windowHeight,1.0,-1.0);
-    //    } else {
-    //        _windowWidth = w * aspectRatio;
-    //        _windowHeight = h;
-    //        glOrtho(-_windowWidth,_windowWidth,-h,h,1.0,-1.0);
-    //    }
+    renderer->reshape(w,h);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -144,5 +123,4 @@ void Game::mouseClicked(int button, int state, int x, int y)
 void Game::keyClicked(unsigned char key, int x, int y)
 {
         renderer->keyClicked(key);
-        std::cout<<x<<" "<<y<<std::endl;
 }

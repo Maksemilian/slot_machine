@@ -12,7 +12,7 @@ public:
     Wheel(int countTones);
     Wheel(const std::vector<Token> &tokens);
     Wheel(const Wheel &lhs);
-
+    Wheel &operator=(const Wheel &lhs);
     void startSpin();
     void stopSpin();
 
