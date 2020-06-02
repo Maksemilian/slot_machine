@@ -3,9 +3,9 @@
 
 #include "ro_renderable_object.h"
 
-
 class BlinkButton;
 class Renderer;
+
 class RenderableBlinkButton: public RenderableObject<BlinkButton>
 {
   public:

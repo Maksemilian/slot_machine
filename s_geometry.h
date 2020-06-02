@@ -4,7 +4,6 @@
 #include <GL/gl.h>
 #include <iostream>
 
-
 class Vertex
 {
     enum XYZ

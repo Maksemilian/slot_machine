@@ -2,11 +2,10 @@
 #define SLOTMACHINE_H
 
 #include "go_wheel.h"
-#include "ro_renderable_object.h"
+
 class BlinkButton;
 
-class SlotMachine
-    : public GameObject
+class SlotMachine : public GameObject
 {
     static const int MIN_WHEEL_SPEED = 50;
     static const int MAX_WHEEL_SPEED = 200;

@@ -3,8 +3,6 @@
 
 #include "s_time.h"
 
-
-
 class FPS
 {
   public:

@@ -4,7 +4,6 @@
 
 #include "ro_renderable_object.h"
 
-
 class SlotMachine;
 
 class SlotMachineRenderable: public RenderableObject<SlotMachine>

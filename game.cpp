@@ -22,9 +22,6 @@ Game::Game(int argc, char** argv)
 #endif
     appDirPath.erase(appDirPath.find_last_of('/'));
 
-
-//    std::cout << "APP_PATH:" << appDirPath << " MS" << TIME_MS << std::endl;
-
     int w = WIDTH;
     int h = HEIGHT;
 
@@ -102,8 +99,6 @@ void Game::reshape(int w, int h)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }
-
-//******************* MOUSE AND KEYBOARD
 
 void Game::mouseClicked(int button, int state, int x, int y)
 {

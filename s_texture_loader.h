@@ -5,7 +5,6 @@
 #include <string>
 #include <GL/gl.h>
 
-
 struct Texture
 {
     Texture(): _textureId(0), _w(0), _h(0) {}

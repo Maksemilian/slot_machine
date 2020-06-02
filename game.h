@@ -13,7 +13,6 @@ class Game
     static std::unique_ptr<Renderer> renderer;
     static std::unique_ptr<RendererText> rendererText;
 
-    //*****CONSTANT
     static const std::string NAME_GAME;
     static const int WIDTH = 800;
     static const int HEIGHT = 600;

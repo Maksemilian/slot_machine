@@ -52,7 +52,6 @@ std::vector<Texture> TextureLoader::loadTextures(const std::string& dirName)
             Texture texture;
             glGenTextures(1, texture);
 
-            //            int w,h;
             unsigned char* image = SOIL_load_image((*it).path().string().data(),
                                                    &texture._w,
                                                    &texture._h,

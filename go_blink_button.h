@@ -4,9 +4,7 @@
 #include "s_timer.h"
 #include "go_game_object.h"
 
-
-class BlinkButton:
-    public GameObject
+class BlinkButton : public GameObject
 {
   public:
     BlinkButton();
