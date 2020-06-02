@@ -25,7 +25,8 @@ struct Character
 
 std::map<char,Character>
 getTexturesOfCharacters(const std::string&characters,
-                        const std::string& pathToFont);
+                        const std::string& pathToFont,
+                        unsigned int textureW,unsigned int textureH);
 
 
 

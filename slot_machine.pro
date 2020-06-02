@@ -59,4 +59,5 @@ HEADERS += \
     s_fps.h \
     s_font.h \
     go_game_object.h \
-    ro_renderable_object.h
+    ro_renderable_object.h \
+    renderer_text.h

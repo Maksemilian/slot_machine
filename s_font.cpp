@@ -3,7 +3,9 @@
 
 std::map<char,Character>
 getTexturesOfCharacters(const std::string &strOfCharacters,
-                        const std::string& pathToFont)
+                        const std::string& pathToFont,
+                        unsigned int textureW,
+                        unsigned int textureH)
 {
     FT_Library  library;   /* handle to library     */
     FT_Face     face;      /* handle to face object */
@@ -29,7 +31,7 @@ getTexturesOfCharacters(const std::string &strOfCharacters,
     }
     else
     {
-        FT_Set_Pixel_Sizes(face, 0, 64);
+        FT_Set_Pixel_Sizes(face, textureW, textureH);
         for(auto &ch:strOfCharacters)
         {
             error=FT_Load_Char(face, ch, FT_LOAD_RENDER);

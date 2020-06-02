@@ -2,21 +2,18 @@
 #define GAME_H
 
 #include "renderer.h"
+#include "renderer_text.h"
 
-#include "go_wheel.h"
 #include "s_fps.h"
-#include "s_font.h"
-
-#include <GL/gl.h>
 
 class Game
 {
     static FPS _fps;
-    static std::map<char,Character>_characters;
 
     static std::unique_ptr<Renderer> renderer;
-    //*****CONSTANT
+    static std::unique_ptr<RendererText> rendererText;
 
+    //*****CONSTANT
     static const std::string NAME_GAME;
     static const int WIDTH=800;
     static const int HEIGHT=600;
@@ -24,8 +21,7 @@ class Game
     static const unsigned short REQUIRED_FPS = 30;
     static const unsigned short TIME_MS_IN_SEC = 1000;
 
-    static constexpr float RENDER_TIMEOUT=TIME_MS_IN_SEC/REQUIRED_FPS;
-    static const std::string PATH_TO_FONT;
+    static const int RENDER_TIMEOUT=TIME_MS_IN_SEC/REQUIRED_FPS;
     static const std::string CHARACTERS_FOR_TEXTURE;
 public:
     Game(int argc,char** argv);
@@ -34,10 +30,6 @@ public:
 private:
     void initGL();
 
-    static void renderText(const std::string &text,
-                           GLfloat x,GLfloat y,GLfloat w,GLfloat h);
-
-    //**********
     static void renderSceneByTimer(int v);
     static void display();
     static void reshape(int w,int h);

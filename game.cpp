@@ -1,16 +1,17 @@
 #include "game.h"
-#include "s_fps.h"
 
 #include <GL/glut.h>
 #include <algorithm>
 
-std::map<char,Character> Game::_characters;
+#define UNUSED(P) {(P) = (P);}
+
 std::unique_ptr<Renderer>Game:: renderer;
+std::unique_ptr<RendererText>Game::rendererText;
+
 FPS Game::_fps;
 
 const std::string Game::NAME_GAME="SlotGame";
 const std::string Game::CHARACTERS_FOR_TEXTURE="FPS:.1234567890";
-const std::string Game::PATH_TO_FONT="/resources/arial.ttf";
 
 Game::Game(int argc,char** argv)
 {
@@ -40,10 +41,16 @@ Game::Game(int argc,char** argv)
     glutCreateWindow(NAME_GAME.data());
 
     initGL();
-    _characters=getTexturesOfCharacters(CHARACTERS_FOR_TEXTURE,
-                                       appDirPath+PATH_TO_FONT);
 
     renderer.reset(new Renderer(appDirPath));
+    //символы FPS имеют размер 5 % от W и H
+    int characterW=w*5/100;
+    int characterH=h*5/100;
+
+    rendererText.reset(new RendererText(appDirPath,
+                                    CHARACTERS_FOR_TEXTURE,
+                                    static_cast<unsigned int>(characterW),
+                                    static_cast<unsigned int>(characterH)));
 
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
@@ -72,19 +79,6 @@ void Game::initGL()
     glClearColor(0.0,0.0,0.0,0.0);
 }
 
-void Game::renderText(const std::string &text,
-                      GLfloat x, GLfloat y,
-                      GLfloat w, GLfloat h)
-{
-    Rect rect(x,y+h,w,h);
-    for(auto &ch:text)
-    {
-        rect.setGeometry(x,y+h,w,h);
-        drawTextureRect(rect,_characters[ch]._texture);
-        x+=w;
-    }
-}
-
 void Game::display(void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -92,7 +86,7 @@ void Game::display(void)
     _fps.CalculateFrameRate();
 
     std::string text="FPS:"+std::to_string(_fps.fps());
-    renderText(text,0,0,32,32);
+    rendererText->render(text,0,0);
     glutSwapBuffers();
 }
 
@@ -104,8 +98,13 @@ void Game::reshape(int w, int h)
     glLoadIdentity();
 
     gluOrtho2D(0,w,0,h);
-    renderer->reshape(w,h);
 
+    //символы FPS имеют размер 5 % от W и H
+    int characterW=w*5/100;
+    int characterH=h*5/100;
+
+    renderer->reshape(w,h);
+    rendererText->reshape(characterW,characterH);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }
@@ -122,5 +121,7 @@ void Game::mouseClicked(int button, int state, int x, int y)
 
 void Game::keyClicked(unsigned char key, int x, int y)
 {
+        UNUSED(x);
+        UNUSED(y);
         renderer->keyClicked(key);
 }
