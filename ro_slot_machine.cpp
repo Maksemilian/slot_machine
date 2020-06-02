@@ -4,12 +4,16 @@
 
 #include "go_blink_button.h"
 #include "s_geometry.h"
-#include "renderer.h"
+#include "renderer_game.h"
 
-void SlotMachineRenderable::render(Renderer &renderer,SlotMachine *slotMachine)
+
+SlotMachineRenderable::SlotMachineRenderable(SlotMachine* slotMachine):
+    RenderableObject<SlotMachine>(slotMachine) { }
+
+void SlotMachineRenderable::render(Renderer& renderer, SlotMachine* slotMachine)
 {
-    GLfloat _w=slotMachine->rect().with();
-    GLfloat _h=slotMachine->rect().height();
+    GLfloat _w = slotMachine->rect().with();
+    GLfloat _h = slotMachine->rect().height();
 
     GLfloat _marginLeft;
     GLfloat _marginRight;
@@ -17,14 +21,15 @@ void SlotMachineRenderable::render(Renderer &renderer,SlotMachine *slotMachine)
     GLfloat _marginTop;
     GLfloat _marginBottom;
 
-    _marginTop=_h*12/100;
-    _marginBottom=_h*40/100;
+    //вычисляется ка процентное соотношение от w и h
+    _marginTop = _h * 12 / 100;
+    _marginBottom = _h * 40 / 100;
 
-    _marginLeft=_w*18/100;
-    _marginRight=_marginLeft;
+    _marginLeft = _w * 18 / 100;
+    _marginRight = _marginLeft;
 
-    GLfloat tokenFieldW=_w-_marginLeft-_marginRight;
-    GLfloat tokenFieldH=_h-_marginTop-_marginBottom;
+    GLfloat tokenFieldW = _w - _marginLeft - _marginRight;
+    GLfloat tokenFieldH = _h - _marginTop - _marginBottom;
 
     GLfloat _startButtonW;
     GLfloat _startButtonH;
@@ -32,67 +37,42 @@ void SlotMachineRenderable::render(Renderer &renderer,SlotMachine *slotMachine)
     GLfloat _xPosButton;
     GLfloat _yPosButton;
 
-    _startButtonW=_w*12/100;
-    _startButtonH=_startButtonW;
+    _startButtonW = _w * 12 / 100;
+    _startButtonH = _startButtonW;
 
-    _xPosButton=_w-_startButtonW;
-    _yPosButton=_startButtonH;
-    slotMachine->startButton().setRect({_xPosButton,_yPosButton,
+    _xPosButton = _w - _startButtonW;
+    _yPosButton = _startButtonH;
+    slotMachine->startButton().setRect({_xPosButton, _yPosButton,
                                         _startButtonW,
                                         _startButtonH});
     //draw background
-    drawTextureRect({0,_h,_w,_h},renderer._txBack);
+    drawTextureRect({0, _h, _w, _h}, renderer._txBack);
 
     slotMachine->startButton().getRenderable()->render(renderer);
     Rect _fieldsForWheelRect(_marginLeft,
-                             _h-_marginTop,
+                             _h - _marginTop,
                              tokenFieldW,
                              tokenFieldH);
 
-    GLfloat x=_fieldsForWheelRect.topLeft().x();
-    GLfloat y=_fieldsForWheelRect.topLeft().y();
+    GLfloat x = _fieldsForWheelRect.topLeft().x();
+    GLfloat y = _fieldsForWheelRect.topLeft().y();
 
-    GLfloat w=_fieldsForWheelRect.with()/slotMachine->countWheel();
+    GLfloat w = _fieldsForWheelRect.with() / slotMachine->countWheel();
 
-    GLfloat h=_fieldsForWheelRect.height();
+    GLfloat h = _fieldsForWheelRect.height();
 
-    GLfloat _spaceBetweenWheel=w/slotMachine->countWheel();
+    GLfloat _spaceBetweenWheel = w / slotMachine->countWheel();
 
-    Rect wheelRect(x,y,w-_spaceBetweenWheel,h);
-    auto &wheels=slotMachine->wheels();
-    for(auto &wheel:wheels)
+    Rect wheelRect(x, y, w - _spaceBetweenWheel, h);
+    auto& wheels = slotMachine->wheels();
+    for(auto& wheel : wheels)
     {
-     wheel.setRect(wheelRect);
-     wheel.getRenderable()->render(renderer);
+        wheel.setRect(wheelRect);
+        wheel.getRenderable()->render(renderer);
 
-     wheelRect.setX(wheelRect.with()+_spaceBetweenWheel);
+        wheelRect.setX(wheelRect.with() + _spaceBetweenWheel);
     }
 
-//    renderBackgraund(renderer);
 
-//    auto &wheels=slotMachine->wheels();
-
-
-//    GLfloat x=slotMachine->rect().topLeft().x();
-//    GLfloat y=slotMachine->rect().topLeft().y();
-
-//    GLfloat w=slotMachine->rect().with()/slotMachine->countWheel();
-
-////    GLfloat h=renderer._tokenSize*renderer._countViewTokens
-////            +(renderer._countViewTokens-1)*renderer._spaceBetweenWheelW;
-//    GLfloat h=slotMachine->rect().height();
-//  //            +(renderer._countViewTokens-1)*renderer._spaceBetweenWheelW;
-
-//    GLfloat _spaceBetweenWheel=w/slotMachine->countWheel();
-////    _spaceBetweenWheelH=_tokenSize/_countViewTokens-1;
-
-//    Rect wheelRect(x,y,w-_spaceBetweenWheel,h);
-//    for(auto &wheel:wheels)
-//    {
-//     wheel.setRect(wheelRect);
-//     wheel.getRenderable()->render(renderer);
-
-//     wheelRect.setX(wheelRect.with()+_spaceBetweenWheel);
-//    }
 }
 

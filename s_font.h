@@ -7,6 +7,7 @@
 #include <ft2build.h>
 #include <freetype/freetype.h>
 
+
 struct Character
 {
     GLuint     _texture; // ID текстуры глифа
@@ -23,10 +24,10 @@ struct Character
     FT_Pos Advance;
 };
 
-std::map<char,Character>
-getTexturesOfCharacters(const std::string&characters,
+std::map<char, Character>
+getTexturesOfCharacters(const std::string& characters,
                         const std::string& pathToFont,
-                        unsigned int textureW,unsigned int textureH);
+                        unsigned int textureW, unsigned int textureH);
 
 
 

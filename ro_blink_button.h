@@ -3,13 +3,14 @@
 
 #include "ro_renderable_object.h"
 
+
 class BlinkButton;
 class Renderer;
-class RenderableBlinkButton:public RenderableObject<BlinkButton>
+class RenderableBlinkButton: public RenderableObject<BlinkButton>
 {
-public:
-    RenderableBlinkButton(BlinkButton *blinkButton);
-     void render(Renderer& renderer, BlinkButton* blinkButton)override;
+  public:
+    RenderableBlinkButton(BlinkButton* blinkButton);
+    void render(Renderer& renderer, BlinkButton* blinkButton)override;
 
 };
 

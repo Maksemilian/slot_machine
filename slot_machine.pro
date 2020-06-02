@@ -1,19 +1,21 @@
 TEMPLATE = app
 CONFIG += console c++11
-
+! include( format.astylerc){
+    error( "Couldn't find the format.astylerc file!" )
+}
 win32 {
 INCLUDEPATH += $${PWD}/lib/win32
 INCLUDEPATH += $${PWD}/lib/win32/freetype-2/include
 INCLUDEPATH += $${PWD}/lib/win32/soil
 INCLUDEPATH += $${PWD}/lib/win32/boost
 
-LIBS += -L$${PWD}/lib/win32/boost -lboost_filesystem_wind
+LIBS += -L$${PWD}/lib/win32/boost -lboost_filesystem_win
 LIBS += -L$${PWD}/lib/win32/soil/lib -lSOIL
 LIBS += -L$${PWD}/lib/win32/freetype-2/lib -lfreetype
 
 # требуется glut32.dll в win os а для linuxa no
 LIBS += -L$${PWD}/lib/win32/GL -lglut32
-LIBS += -lgdi32 -lopengl32 -lglu32
+LIBS += -lopengl32
 }
 
 unix {
@@ -40,14 +42,19 @@ SOURCES += \
     s_timer.cpp \
     s_font.cpp \
     s_geometry.cpp \
-    _main.cpp
+    _main.cpp \
+    s_fps.cpp \
+    s_time.cpp \
+    go_game_object.cpp \
+    ro_renderable_object.cpp \
+    renderer_text.cpp \
+    renderer_game.cpp
 
 HEADERS += \
     game.h \
     go_slot_machine.h \
     go_token.h \
     go_wheel.h \
-    renderer.h \
     ro_slot_machine.h \
     ro_token.h \
     ro_wheel.h \
@@ -60,4 +67,6 @@ HEADERS += \
     s_font.h \
     go_game_object.h \
     ro_renderable_object.h \
-    renderer_text.h
+    renderer_text.h \
+    s_time.h \
+    renderer_game.h

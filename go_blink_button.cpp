@@ -3,17 +3,14 @@
 
 BlinkButton::BlinkButton():
     GameObject (new RenderableBlinkButton(this)),
-    _status(false)
-
-{
-
-}
+    _status(false) {}
 
 void BlinkButton::setTime(int ms)
 {
     _timer.start();
     _timer.recursiveTimeout(std::chrono::milliseconds(ms),
-                            [this](){
+                            [this]()
+    {
         this->setBlinkStatus(!_status);
     });
 }

@@ -1,32 +1,42 @@
 #ifndef GAME_OBJECT_H
 #define GAME_OBJECT_H
 
-class Renderable;
 #include "s_geometry.h"
+#define UNUSED(P) {(P) = (P);}
+
+
+class Renderable;
 
 class GameObject
 {
-public:
-    GameObject(Renderable*renderable)
-        :_renderable(renderable){}
+  public:
+    GameObject(Renderable* renderable);
 
-    virtual ~GameObject(){}
+    virtual ~GameObject();
 
-    void setRenderable(Renderable *renderable){
-        _renderable=renderable;
+    inline void setRenderable(Renderable* renderable)
+    {
+        _renderable = renderable;
     }
 
-    Renderable* getRenderable() {
-        // By default, all GameObjects are missing their Renderable
+    inline Renderable* getRenderable()
+    {
         return _renderable;
     }
-    void setRect(const Rect &rect){_rect=rect;}
-    Rect& rect(){return _rect;}
-    virtual void onPressEvent(int x,int y){
 
+    inline void setRect(const Rect& rect)
+    {
+        _rect = rect;
     }
-protected:
-    Renderable *_renderable;
+
+    inline Rect& rect()
+    {
+        return _rect;
+    }
+
+    virtual void onPressEvent(int x, int y);
+  protected:
+    Renderable* _renderable;
     Rect _rect;
 };
 
