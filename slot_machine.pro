@@ -13,7 +13,6 @@ LIBS += -L$${PWD}/lib/win32/boost -lboost_filesystem_win
 LIBS += -L$${PWD}/lib/win32/soil/lib -lSOIL
 LIBS += -L$${PWD}/lib/win32/freetype-2/lib -lfreetype
 
-# требуется glut32.dll в win os а для linuxa no
 LIBS += -L$${PWD}/lib/win32/GL -lglut32
 LIBS += -lopengl32
 }
