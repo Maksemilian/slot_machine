@@ -60,7 +60,7 @@ void Wheel::startSpin()
         {
             if(_tokens.front().getId() == _tokenIdForStop)
             {
-                _wheellSpinTimer.stop();
+                stopSpin();
                 return ;
             }
         }

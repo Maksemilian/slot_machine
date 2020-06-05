@@ -68,7 +68,6 @@ void SlotMachine::genearateRandomVirtualWheelValue()
         int randomNum = getRandomNumber(0, wheel.countTokens() - 1);
 
         int virtualValue = randomNum % wheel.countTokens();
-//        std::cout << "RN: " << randomNum << std::endl;
         wheel.findTokenForStop(virtualValue);
     }
 }
