@@ -6,7 +6,9 @@ Wheel::Wheel(const std::vector<Token>& tokens)
        _tokens(tokens),
        _stop(true),
        _spinSpeed(0),
-       _spinTime(0) {}
+       _spinTime(0),
+       _tokenIdForStop(0)
+{}
 
 Wheel::Wheel(const Wheel& lhs)
     : GameObject(new WheelRenderable(this))
@@ -15,17 +17,22 @@ Wheel::Wheel(const Wheel& lhs)
     _stop = lhs._stop;
     _spinSpeed = lhs._spinSpeed;
     _spinTime = lhs._spinTime;
+    _tokenIdForStop = lhs._tokenIdForStop;
+    _virtualWheel = lhs._virtualWheel;
 }
 
 Wheel::Wheel(int countTokens)
     :  GameObject(new WheelRenderable(this)),
        _stop(true),
        _spinSpeed(0),
-       _spinTime(0)
+       _spinTime(0),
+       _tokenIdForStop(0)
 {
     for(int i = 0; i < countTokens; ++i)
     {
         _tokens.push_back({i});
+        std::vector<int>v{i};
+        _virtualWheel[i] = v;
     }
 }
 
@@ -36,6 +43,7 @@ Wheel& Wheel::operator=(const Wheel& lhs)
         _tokens = lhs._tokens;
         _stop = lhs._stop;
         _spinSpeed = lhs._spinSpeed;
+        _virtualWheel = lhs._virtualWheel;
     }
     return *this;
 }
@@ -44,24 +52,26 @@ void Wheel::startSpin()
 {
     _time.reset();
     _stop = false;
-    _whellSpinTimer.start();
-    _whellSpinTimer.recursiveTimeout(std::chrono::milliseconds(_spinSpeed), [this]
+    _wheellSpinTimer.start();
+    _wheellSpinTimer.recursiveTimeout(std::chrono::milliseconds(_spinSpeed),
+                                      [this]
     {
-        if(_time.elapsed() < _spinTime)
+        if(_time.elapsed() >= _spinTime)
         {
-            this->spin();
+            if(_tokens.front().getId() == _tokenIdForStop)
+            {
+                _wheellSpinTimer.stop();
+                return ;
+            }
         }
-        else
-        {
-            _whellSpinTimer.stop();
-        }
+        this->spin();
     });
 }
 
 void Wheel::stopSpin()
 {
     _stop = true;
-    _whellSpinTimer.stop();
+    _wheellSpinTimer.stop();
 }
 
 void Wheel::spin()
@@ -77,4 +87,19 @@ void Wheel::spin()
 
         _tokens[0] = last;
     }
+}
+
+void Wheel::findTokenForStop(int virtualValue)
+{
+    for(auto& it : _virtualWheel)
+    {
+        for(auto& value : it.second)
+        {
+            if(value == virtualValue)
+            {
+                _tokenIdForStop = it.first;
+            }
+        }
+    }
+    std::cout << "ID_FOR_STOP:" << _tokenIdForStop << " " << virtualValue << std::endl;
 }

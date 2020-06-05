@@ -30,6 +30,8 @@ class SlotMachine : public GameObject
         return  *_startButton;
     }
   private:
+    void genearateRandomVirtualWheelValue();
+  private:
     std::vector<Wheel> _wheels;
     BlinkButton* _startButton;
 };

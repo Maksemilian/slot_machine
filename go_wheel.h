@@ -6,6 +6,7 @@
 #include "s_time.h"
 
 #include <vector>
+#include <map>
 
 
 class Wheel : public GameObject
@@ -50,15 +51,19 @@ class Wheel : public GameObject
         return _tokens;
     }
 
+    void findTokenForStop(int virtualValue);
   private:
     void spin();
   private:
     std::vector<Token>_tokens;
-    Timer _whellSpinTimer;
+    Timer _wheellSpinTimer;
     Time _time;
     bool _stop;
     int _spinSpeed;
     int _spinTime;
+
+    std::map<int, std::vector<int> >_virtualWheel;
+    int _tokenIdForStop;
 };
 
 
