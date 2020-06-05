@@ -6,8 +6,7 @@ Wheel::Wheel(const std::vector<Token>& tokens)
        _tokens(tokens),
        _stop(true),
        _spinSpeed(0),
-       _spinTime(0),
-       _tokenIdForStop(0)
+       _spinTime(0)
 {}
 
 Wheel::Wheel(const Wheel& lhs)
@@ -17,7 +16,6 @@ Wheel::Wheel(const Wheel& lhs)
     _stop = lhs._stop;
     _spinSpeed = lhs._spinSpeed;
     _spinTime = lhs._spinTime;
-    _tokenIdForStop = lhs._tokenIdForStop;
     _virtualWheel = lhs._virtualWheel;
 }
 
@@ -25,8 +23,7 @@ Wheel::Wheel(int countTokens)
     :  GameObject(new WheelRenderable(this)),
        _stop(true),
        _spinSpeed(0),
-       _spinTime(0),
-       _tokenIdForStop(0)
+       _spinTime(0)
 {
     for(int i = 0; i < countTokens; ++i)
     {
@@ -58,8 +55,9 @@ void Wheel::startSpin()
     {
         if(_time.elapsed() >= _spinTime)
         {
-            if(_tokens.front().getId() == _tokenIdForStop)
+            if(_tokens.front().isSelected())
             {
+                _tokens.front().setSelected(false);
                 stopSpin();
                 return ;
             }
@@ -91,15 +89,17 @@ void Wheel::spin()
 
 void Wheel::findTokenForStop(int virtualValue)
 {
+    int findId = -1;
     for(auto& it : _virtualWheel)
     {
         for(auto& value : it.second)
         {
             if(value == virtualValue)
             {
-                _tokenIdForStop = it.first;
+                findId = it.first;
+                _tokens[it.first].setSelected(true);
             }
         }
     }
-    std::cout << "ID_FOR_STOP:" << _tokenIdForStop << " " << virtualValue << std::endl;
+    std::cout << "ID_FOR_STOP:" << findId << " " << virtualValue << std::endl;
 }

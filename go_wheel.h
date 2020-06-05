@@ -63,7 +63,6 @@ class Wheel : public GameObject
     int _spinTime;
 
     std::map<int, std::vector<int> >_virtualWheel;
-    int _tokenIdForStop;
 };
 
 

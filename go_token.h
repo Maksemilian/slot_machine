@@ -27,10 +27,18 @@ class Token : public GameObject
     {
         return  _tokenId;
     }
-
+    inline void setSelected(bool select)
+    {
+        _selected = select;
+    }
+    inline bool isSelected()const
+    {
+        return _selected;
+    }
   private:
     int _tokenId;
     Type _type;
+    bool _selected;
 };
 
 #endif // TOKEN_H

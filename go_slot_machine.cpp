@@ -22,7 +22,6 @@ SlotMachine::SlotMachine(int countWheel, int countTokensInWheel)
     {
         _wheels.push_back({countTokensInWheel});
         _wheels[static_cast<size_t>(i)].setSpinTime(spinTime);
-//        _virtualWheel.insert(i, {i});
         ++spinTime;
     }
     _startButton = new BlinkButton;

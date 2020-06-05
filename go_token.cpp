@@ -4,7 +4,8 @@
 Token::Token(int tokenId, Type type):
     GameObject(new TokenRenderable(this)),
     _tokenId(tokenId),
-    _type(type)
+    _type(type),
+    _selected(false)
 {}
 
 
@@ -13,6 +14,7 @@ Token::Token(const Token& lhs)
 {
     _tokenId = lhs._tokenId;
     _type = lhs._type;
+    _selected = lhs._selected;
 }
 
 Token& Token::operator=(const Token& lhs)
@@ -21,6 +23,7 @@ Token& Token::operator=(const Token& lhs)
     {
         _tokenId = lhs._tokenId;
         _type = lhs._type;
+        _selected = lhs._selected;
     }
     return *this;
 }
