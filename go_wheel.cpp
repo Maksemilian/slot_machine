@@ -55,9 +55,15 @@ void Wheel::startSpin()
     {
         if(_time.elapsed() >= _spinTime)
         {
-            if(_tokens.front().isSelected())
+//            if(_tokens.front().isSelected())
+//            {
+//                _tokens.front().setSelected(false);
+//                stopSpin();
+//                return ;
+//            }
+
+            if(_tokens.front().getId() == _findId)
             {
-                _tokens.front().setSelected(false);
                 stopSpin();
                 return ;
             }
@@ -89,17 +95,16 @@ void Wheel::spin()
 
 void Wheel::findTokenForStop(int virtualValue)
 {
-    int findId = -1;
     for(auto& it : _virtualWheel)
     {
         for(auto& value : it.second)
         {
             if(value == virtualValue)
             {
-                findId = it.first;
+                _findId = it.first;
                 _tokens[it.first].setSelected(true);
             }
         }
     }
-    std::cout << "ID_FOR_STOP:" << findId << " " << virtualValue << std::endl;
+    std::cout << "ID_FOR_STOP:" << _findId << " " << virtualValue << std::endl;
 }

@@ -63,6 +63,8 @@ class Wheel : public GameObject
     int _spinTime;
 
     std::map<int, std::vector<int> >_virtualWheel;
+    //TODO do without this memeber
+    int _findId = 0;
 };
 
 
