@@ -31,10 +31,13 @@ std::ostream& operator<<(std::ostream& out, const Texture& lhs);
 
 class TextureLoader
 {
+    static const std::string CLASS_NAME;
   public:
     static Texture loadTexture(const std::string& path);
 
     static std::vector<Texture> loadTextures(const std::string& dirName);
+  private:
+    static void bindTexture(Texture& texture, unsigned char* image);
 
 };
 
