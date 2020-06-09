@@ -14,21 +14,18 @@ getTexturesOfCharacters(const std::string& strOfCharacters,
     error = FT_Init_FreeType( &library );
     if ( error )
     {
-        std::cout << "error init lib" << std::endl;
-        return {};
+        throw std::runtime_error("FREETYTPE_ERR:error init lib");
     }
     error = FT_New_Face( library, pathToFont.data(),
                          0,
                          &face );
     if ( error == FT_Err_Unknown_File_Format )
     {
-        std::cout << "unknown_file_format" << std::endl;
-        return {};
+        throw std::runtime_error("FREETYTPE_ERR:unknown_file_format");
     }
     else if ( error )
     {
-        std::cout << "another error" << error << std::endl;
-        return {};
+        throw std::runtime_error("FREETYTPE_ERR:another error" + std::to_string(error));
     }
     else
     {
@@ -38,8 +35,9 @@ getTexturesOfCharacters(const std::string& strOfCharacters,
             error = FT_Load_Char(face, ch, FT_LOAD_RENDER);
             if (error)
             {
-                std::cout << "ERROR::FREETYTPE: Failed to load Glyph:"
-                          << error << std::endl;
+                throw std::runtime_error("FREETYTPE_ERR: Failed to load Glyph"
+                                         + std::to_string(ch) +
+                                         std::to_string(error));
             }
             else
             {
